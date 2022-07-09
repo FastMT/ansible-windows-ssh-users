@@ -7,7 +7,7 @@ Create requirements.yml file
 
 ```
 # Include windows-ssh-users role
-- src: git@github.com:FastMT/ansible-windows-ssh-users.git
+- src: https://github.com/FastMT/ansible-windows-ssh-users.git
   name: windows-ssh-users
   version: "v1.0.0"
 ```
