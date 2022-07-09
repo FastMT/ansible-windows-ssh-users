@@ -1,0 +1,24 @@
+- name: Deploy admin ssh keys
+  ansible.windows.win_template:
+    src: administrators_authorized_keys.j2
+    dest: "C:\\ProgramData\\ssh\\administrators_authorized_keys"
+    output_encoding: 'utf-8'
+    newline_sequence: '\r\n'
+    force: yes
+
+- name: Disable inherited ACLs for auth keys file
+  win_acl_inheritance:
+    path: "C:\\ProgramData\\ssh\\administrators_authorized_keys"
+    state: absent
+
+- name: Add users to ACL for auth keys file
+  ansible.windows.win_acl:
+    path: "C:\\ProgramData\\ssh\\administrators_authorized_keys"
+    user: "{{ item }}"
+    rights: FullControl
+    inherit: none
+    type: allow
+    state: present
+  loop:
+    - "NT AUTHORITY\\SYSTEM"
+    - "BUILTIN\\Administrators"
